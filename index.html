@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IrrigaTech - Loja de Irrigação</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+body{background:#f4f6f9;}
+header{background:#0f172a;color:white;padding:20px;text-align:center;}
+nav{display:flex;justify-content:space-between;align-items:center;background:#1e293b;padding:15px 30px;color:white;}
+nav h2{color:#38bdf8;}
+nav .cart{cursor:pointer;background:#38bdf8;color:#000;padding:8px 15px;border-radius:5px;font-weight:bold;}
+.banner{background:linear-gradient(90deg,#0284c7,#22c55e);color:white;text-align:center;padding:60px 20px;}
+.banner h1{font-size:40px;margin-bottom:10px;}
+.container{max-width:1200px;margin:auto;padding:40px 20px;}
+.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+.produto{background:white;padding:20px;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.1);text-align:center;transition:0.3s;}
+.produto:hover{transform:translateY(-5px);}
+.produto img{width:100%;height:200px;object-fit:cover;border-radius:8px;}
+.produto h3{margin:15px 0;}
+.preco{font-size:20px;color:#16a34a;font-weight:bold;margin:10px 0;}
+button{padding:10px 15px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;}
+.btn-comprar{background:#0284c7;color:white;}
+.btn-comprar:hover{background:#0369a1;}
+.cart-modal{position:fixed;top:0;right:-400px;width:350px;height:100%;background:white;box-shadow:-5px 0 15px rgba(0,0,0,0.2);padding:20px;transition:0.4s;overflow-y:auto;}
+.cart-modal.active{right:0;}
+.cart-item{margin-bottom:15px;border-bottom:1px solid #ddd;padding-bottom:10px;}
+.total{font-size:18px;font-weight:bold;margin-top:20px;}
+.whatsapp{background:#25D366;color:white;width:100%;margin-top:15px;}
+footer{text-align:center;padding:20px;background:#0f172a;color:white;margin-top:40px;}
+.close{float:right;cursor:pointer;font-weight:bold;color:red;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>IrrigaTech</h1>
+<p>Soluções completas para irrigação agrícola</p>
+</header>
+
+<nav>
+<h2>Produtos</h2>
+<div class="cart" onclick="toggleCart()">🛒 Carrinho (<span id="cart-count">0</span>)</div>
+</nav>
+
+<section class="banner">
+<h1>Equipamentos de Irrigação Profissional</h1>
+<p>Qualidade, economia de água e alta produtividade</p>
+</section>
+
+<div class="container">
+<div class="produtos">
+
+<div class="produto">
+<img src="https://via.placeholder.com/300x200" alt="">
+<h3>Kit Gotejamento 100m</h3>
+<p>Sistema completo para irrigação por gotejamento.</p>
+<div class="preco">R$ 299.90</div>
+<button class="btn-comprar" onclick="addToCart('Kit Gotejamento 100m',299.90)">Adicionar</button>
+</div>
+
+<div class="produto">
+<img src="https://via.placeholder.com/300x200" alt="">
+<h3>Aspersor Rotativo</h3>
+<p>Alta eficiência para áreas médias e grandes.</p>
+<div class="preco">R$ 89.90</div>
+<button class="btn-comprar" onclick="addToCart('Aspersor Rotativo',89.90)">Adicionar</button>
+</div>
+
+<div class="produto">
+<img src="https://via.placeholder.com/300x200" alt="">
+<h3>Bomba D'água 1CV</h3>
+<p>Potência e economia para seu sistema.</p>
+<div class="preco">R$ 799.90</div>
+<button class="btn-comprar" onclick="addToCart('Bomba Dagua 1CV',799.90)">Adicionar</button>
+</div>
+
+</div>
+</div>
+
+<!-- Carrinho -->
+<div class="cart-modal" id="cart">
+<span class="close" onclick="toggleCart()">X</span>
+<h2>Seu Carrinho</h2>
+<div id="cart-items"></div>
+<div class="total">Total: R$ <span id="cart-total">0.00</span></div>
+<button class="whatsapp" onclick="sendWhatsApp()">Finalizar no WhatsApp</button>
+</div>
+
+<footer>
+© 2026 IrrigaTech - Todos os direitos reservados
+</footer>
+
+<script>
+let cart = [];
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+}
+
+function addToCart(nome, preco){
+cart.push({nome,preco});
+updateCart();
+}
+
+function updateCart(){
+let itemsDiv = document.getElementById("cart-items");
+let total = 0;
+itemsDiv.innerHTML="";
+cart.forEach(item=>{
+total += item.preco;
+itemsDiv.innerHTML += `
+<div class="cart-item">
+${item.nome} - R$ ${item.preco.toFixed(2)}
+</div>`;
+});
+document.getElementById("cart-total").innerText = total.toFixed(2);
+document.getElementById("cart-count").innerText = cart.length;
+}
+
+function sendWhatsApp(){
+if(cart.length === 0){
+alert("Seu carrinho está vazio!");
+return;
+}
+let mensagem = "Olá, gostaria de fazer o pedido:%0A";
+cart.forEach(item=>{
+mensagem += `- ${item.nome} (R$ ${item.preco.toFixed(2)})%0A`;
+});
+mensagem += `%0ATotal: R$ ${document.getElementById("cart-total").innerText}`;
+window.open(`https://wa.me/5599999999999?text=${mensagem}`);
+}
+</script>
+
+</body>
+</html>
